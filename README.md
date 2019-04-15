@@ -1,5 +1,7 @@
 # foxford_task4_calc
 
+[![Build Status](https://travis-ci.org/CoolONEOfficial/foxford_task4_calc.svg?branch=master)](https://travis-ci.org/CoolONEOfficial/foxford_task4_calc)
+
 ## Project setup
 ```
 npm install
