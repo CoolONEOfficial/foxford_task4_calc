@@ -32,21 +32,22 @@
 
                 console.log(list);
 
-                let action, number, finalResult = "0";
+                let finalResult = "0";
                 for (let str of list) {
+                    let action, number;
+
                     if (isAction(str[0])) {
                         action = str[0];
                         number = str.substr(1);
                     } else {
-                        action = null;
                         number = str;
                     }
-                    number = parseInt(number);
+                    number = parseFloat(number);
 
                     console.log('action:', action);
                     console.log('num:', number);
 
-                    let result = parseInt(finalResult);
+                    let result = parseFloat(finalResult);
                     console.log("result before:", finalResult," to ", result);
 
                     switch (action) {
