@@ -25,57 +25,124 @@
         },
         methods: {
             compute(str) {
-                function isAction(str) {
-                    return str === "+" || str === "-" || str === "/" || str === "*";
+                console.log("-------");
+                let res = str.split(/([+\-/*?]\w*)/)
+                        .filter(value => value.length > 0)
+                        .map(value => {
+                            // console.log('val', value);
+
+                            let action, number;
+
+                            switch (value[0]) {
+                                case "+":
+                                case "-":
+                                case "*":
+                                case "/":
+                                    action = value[0];
+                                    number = value.substr(1);
+                                    break;
+                                default:
+                                    action = '+';
+                                    number = value;
+                            }
+                            number = parseFloat(number);
+                            if (isNaN(number)) number = 0;
+
+                            // console.log('pair: ', action, number);
+
+                            return [action, number];
+                        })
+                    // .reduce(
+                    //     (pre, curr) => {
+                    //         console.log("*/ reduce");
+                    //         console.log("pre", pre, "curr", curr);
+                    //         let number = pre[1];
+                    //         if(number === undefined) return pre;
+                    //         switch (curr[0]) {
+                    //             case "*":
+                    //                 number *= curr[1];
+                    //                 break;
+                    //             case "/":
+                    //                 number /= curr[1];
+                    //                 break;
+                    //             default:
+                    //                 console.log("default");
+                    //                 return pre;
+                    //         }
+                    //         console.log("0: ", pre[0], "num: ", number);
+                    //         return [pre[0], number];
+                    //     }
+                    // )
+                    // .reduce(
+                    //     (pre, curr) => {
+                    //         console.log("+- reduce");
+                    //         console.log("pre", pre, "curr", curr);
+                    //         let number = pre[1];
+                    //         if(number === undefined) return pre;
+                    //         switch (curr[0]) {
+                    //             case "+":
+                    //                 number += curr[1];
+                    //                 break;
+                    //             case "-":
+                    //                 number -= curr[1];
+                    //                 break;
+                    //             default:
+                    //                 return pre;
+                    //         }
+                    //         console.log("0: ", pre[0], "num: ", number);
+                    //         return [pre[0], number];
+                    //     }
+                    // )
+                ;
+
+                for (let step of Array(2).keys()) {
+                    console.log("---step ", step, "---");
+                    console.log("res: ", res.toString());
+
+                    let prevPair = res[0];
+                    for (let pairId = 1; pairId < res.length; pairId++) {
+                        let pair = res[pairId];
+
+                        let found = true;
+
+                        switch (step) {
+                            case 0: // */
+                                switch (pair[0]) {
+                                    case "*":
+                                        prevPair[1] *= pair[1];
+                                        break;
+                                    case "/":
+                                        prevPair[1] /= pair[1];
+                                        break;
+                                    default:
+                                        found = false;
+                                }
+                                break;
+                            case 1: // +-
+                                switch (pair[0]) {
+                                    case "+":
+                                        prevPair[1] += pair[1];
+                                        break;
+                                    case "-":
+                                        prevPair[1] -= pair[1];
+                                        break;
+                                    default:
+                                        found = false;
+                                }
+                                break;
+                        }
+
+                        if (found) {
+                            res.splice(pairId, 1);
+
+                            pairId--;
+                        } else prevPair = pair;
+                    }
                 }
 
-                let list = str.split(/([+\-/*?]\w*)/).filter(value => value.length > 0);
+                console.log("final res: ", res);
 
-                console.log(list);
-
-                let finalResult = "0";
-                for (let str of list) {
-                    let action, number;
-
-                    if (isAction(str[0])) {
-                        action = str[0];
-                        number = str.substr(1);
-                    } else {
-                        number = str;
-                    }
-                    number = parseFloat(number);
-
-                    console.log('action:', action);
-                    console.log('num:', number);
-
-                    let result = parseFloat(finalResult);
-                    console.log("result before:", finalResult, " to ", result);
-
-                    switch (action) {
-                        case '-':
-                            result -= number;
-                            break;
-                        case '+':
-                            result += number;
-                            break;
-                        case '/':
-                            result /= number;
-                            break;
-                        case '*':
-                            result *= number;
-                            break;
-                        default:
-                            result += number;
-                            break;
-                    }
-                    finalResult = (Math.round(result * 1000) / 1000).toString();
-                    console.log('result after: ', result.toString(), ' to ', finalResult);
-                }
-
-
-                console.log('---------', finalResult);
-
-                return finalResult;
+                return res;
             }
         },
     }
