@@ -1,11 +1,47 @@
 <template>
     <v-container>
         <v-card>
-            <v-layout row>
-                <v-text-field v-model="inputText"
-                              :suffix="solution.length > 0 && solution !== 'NaN' ? '=' + solution : ''"
-                              solo></v-text-field>
-                <h1>{{ }}</h1>
+            <v-layout row wrap>
+                <v-flex xs12 style="height: 50px;">
+                    <v-text-field
+                            style="position: absolute; width: 100%;"
+                            v-model="inputText"
+                            :suffix="solution.length > 0 && solution !== 'NaN' ? '=' + solution : ''"
+                            solo></v-text-field>
+                </v-flex>
+
+                <v-flex xs3 :style="item[0].length === 0 ? 'opacity: 0' : ''" v-for='item of [
+                    ["1", "1"],
+                    ["2", "2"],
+                    ["3", "3"],
+                    ["+", "+"],
+
+                    ["4", "4"],
+                    ["5", "5"],
+                    ["6", "6"],
+                    ["-", "-"],
+
+                    ["7", "7"],
+                    ["8", "8"],
+                    ["9", "9"],
+                    ["*", "*"],
+
+                    [",", "."],
+                    ["0", "0"],
+                    ["C", null],
+                    ["/", "/"],
+
+                    ["", ""],
+                    ["SQR", "**"],
+                    ["√", "^"],
+                    ["", ""],
+                ]' :key="item">
+                    <v-card v-ripple @click="item[1] != null ?
+                        inputText+=item[1]
+                        : inputText = ''">
+                        <h1 class="display-1 text-xs-center pa-3">{{ item[0] }}</h1>
+                    </v-card>
+                </v-flex>
             </v-layout>
         </v-card>
     </v-container>
