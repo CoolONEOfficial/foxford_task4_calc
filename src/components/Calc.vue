@@ -20,80 +20,52 @@
         watch: {
             inputText(inputText) {
                 console.log(inputText);
-                this.solution = this.compute(inputText);
+                this.solution = this.compute(inputText)[0][1].toString();
             }
         },
         methods: {
             compute(str) {
-                console.log("-------");
-                let res = str.split(/([+\-/*?]\w*)/)
-                        .filter(value => value.length > 0)
-                        .map(value => {
-                            // console.log('val', value);
+                // let array = [], c = 0;
 
-                            let action, number;
+                // console.log("-------");
+                // console.log(str.split(/([()])/).filter(Boolean).forEach(e =>
+                //     e === '('
+                //         ? c++
+                //         : e === ')'
+                //         ? c--
+                //         : array.push(e)
+                // ));
+                // console.log(array.toString());
 
-                            switch (value[0]) {
-                                case "+":
-                                case "-":
-                                case "*":
-                                case "/":
+                let res = str
+                    .split(/([+\-/^*?]*-?\w*)/)
+                    .filter(value => value.length > 0)
+                    .map(value => {
+                        let action, number;
+
+                        switch (value[0]) {
+                            case "+":
+                            case "-":
+                            case "*":
+                            case "/":
+                            case "^":
+                                if (value[1] === "*") {
+                                    action = value.substr(0, 2);
+                                    number = value.substr(2);
+                                } else {
                                     action = value[0];
                                     number = value.substr(1);
-                                    break;
-                                default:
-                                    action = '+';
-                                    number = value;
-                            }
-                            number = parseFloat(number);
-                            if (isNaN(number)) number = 0;
+                                }
+                                break;
+                            default:
+                                action = '+';
+                                number = value;
+                        }
+                        number = parseFloat(number);
+                        if (isNaN(number)) number = 0;
 
-                            // console.log('pair: ', action, number);
-
-                            return [action, number];
-                        })
-                    // .reduce(
-                    //     (pre, curr) => {
-                    //         console.log("*/ reduce");
-                    //         console.log("pre", pre, "curr", curr);
-                    //         let number = pre[1];
-                    //         if(number === undefined) return pre;
-                    //         switch (curr[0]) {
-                    //             case "*":
-                    //                 number *= curr[1];
-                    //                 break;
-                    //             case "/":
-                    //                 number /= curr[1];
-                    //                 break;
-                    //             default:
-                    //                 console.log("default");
-                    //                 return pre;
-                    //         }
-                    //         console.log("0: ", pre[0], "num: ", number);
-                    //         return [pre[0], number];
-                    //     }
-                    // )
-                    // .reduce(
-                    //     (pre, curr) => {
-                    //         console.log("+- reduce");
-                    //         console.log("pre", pre, "curr", curr);
-                    //         let number = pre[1];
-                    //         if(number === undefined) return pre;
-                    //         switch (curr[0]) {
-                    //             case "+":
-                    //                 number += curr[1];
-                    //                 break;
-                    //             case "-":
-                    //                 number -= curr[1];
-                    //                 break;
-                    //             default:
-                    //                 return pre;
-                    //         }
-                    //         console.log("0: ", pre[0], "num: ", number);
-                    //         return [pre[0], number];
-                    //     }
-                    // )
-                ;
+                        return [action, number];
+                    });
 
                 for (let step of Array(2).keys()) {
                     console.log("---step ", step, "---");
@@ -113,6 +85,12 @@
                                         break;
                                     case "/":
                                         prevPair[1] /= pair[1];
+                                        break;
+                                    case "^":
+                                        prevPair[1] = prevPair[1] ** (1 / pair[1]);
+                                        break;
+                                    case "**":
+                                        prevPair[1] **= pair[1];
                                         break;
                                     default:
                                         found = false;
