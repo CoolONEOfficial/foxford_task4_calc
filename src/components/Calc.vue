@@ -2,7 +2,8 @@
     <v-container>
         <v-card>
             <v-layout row>
-                <v-text-field v-model="inputText" :suffix="solution.length > 0 && solution !== 'NaN' ? '=' + solution : ''"
+                <v-text-field v-model="inputText"
+                              :suffix="solution.length > 0 && solution !== 'NaN' ? '=' + solution : ''"
                               solo></v-text-field>
                 <h1>{{ }}</h1>
             </v-layout>
@@ -48,7 +49,7 @@
                     console.log('num:', number);
 
                     let result = parseFloat(finalResult);
-                    console.log("result before:", finalResult," to ", result);
+                    console.log("result before:", finalResult, " to ", result);
 
                     switch (action) {
                         case '-':
@@ -67,7 +68,7 @@
                             result += number;
                             break;
                     }
-                    finalResult = result.toString();
+                    finalResult = (Math.round(result * 1000) / 1000).toString();
                     console.log('result after: ', result.toString(), ' to ', finalResult);
                 }
 
