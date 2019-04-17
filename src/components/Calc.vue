@@ -63,7 +63,6 @@
         },
         methods: {
             compute(str) {
-
                 console.log("--- compute str ", str, " ---");
 
                 let res = str;
@@ -75,8 +74,8 @@
                 }
 
                 console.log("replaced: ", res);
-                console.log("splitt: ", res.split(/([+\-/^*?]*-?\d*(\.\d+)?)/));
-                res = res.split(/([+\-/^*?]*-?\d*(\.\d+)?)/)
+                res = res.replace('--', '+')
+                    .split(/([+\-/^*?]*-?\d*(\.\d+)?)/)
                     .filter(value => value !== undefined && value.length > 0 && value[0] !== '.')
                     .map(value => {
                         let action, number;
@@ -161,7 +160,7 @@
 
                 console.log("final res: ", res.toString());
 
-                return res.length > 0 ? res[0][0] === "-" ? -res[0][1] : res[0][1] : 0;
+                return res.length > 0 ? res[0][1] : 0;
             }
         },
     }
