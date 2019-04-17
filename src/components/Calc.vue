@@ -82,8 +82,11 @@
                         let action, number;
 
                         switch (value[0]) {
-                            case "+":
                             case "-":
+                                action = '+';
+                                number = value;
+                                break;
+                            case "+":
                             case "*":
                             case "/":
                             case "^":
