@@ -10,7 +10,7 @@
                             solo></v-text-field>
                 </v-flex>
 
-                <v-flex xs3 :style="item[0].length === 0 ? 'opacity: 0' : ''" v-for='item of [
+                <v-flex xs3 v-for='item of [
                     ["1", "1"],
                     ["2", "2"],
                     ["3", "3"],
@@ -31,10 +31,10 @@
                     ["C", null],
                     ["/", "/"],
 
-                    ["", ""],
+                    ["(", "("],
+                    [")", ")"],
                     ["SQR", "**"],
                     ["√", "^"],
-                    ["", ""],
                 ]' :key="item">
                     <v-card v-ripple @click="item[1] != null ?
                         inputText+=item[1]
