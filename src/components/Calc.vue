@@ -48,6 +48,8 @@
 </template>
 
 <script>
+    var XRegExp = require('xregexp');
+
     export default {
         data: () => ({
             inputText: "",
@@ -61,11 +63,17 @@
         },
         methods: {
             compute(str) {
-                let res = str.replace(/\(.*?\)/, match => {
-                    let res = this.compute(match.slice(1, -1));
-                    console.log("match: ", match, "res: ", res);
-                    return res.toString();
-                });
+
+                console.log("--- compute str ", str, " ---");
+
+                let res = str;
+                for(let match of XRegExp.matchRecursive(str, '\\(', '\\)', 'g')) {
+                    let innerRes = this.compute(match);
+                    console.log("match: ", match, " -> ", innerRes.toString());
+
+                    res = res.replace('(' + match + ')', innerRes);
+                }
+
                 console.log("replaced: ", res);
                 res = res.split(/([+\-/^*?]*-?\w*)/)
                     .filter(value => value.length > 0)
@@ -147,7 +155,7 @@
                     }
                 }
 
-                console.log("final res: ", res);
+                console.log("final res: ", res.toString());
 
                 return res.length > 0 ? res[0][0] === "-" ? -res[0][1] : res[0][1] : 0;
             }
