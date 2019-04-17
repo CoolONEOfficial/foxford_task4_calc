@@ -75,8 +75,9 @@
                 }
 
                 console.log("replaced: ", res);
-                res = res.split(/([+\-/^*?]*-?\w*)/)
-                    .filter(value => value.length > 0)
+                console.log("splitt: ", res.split(/([+\-/^*?]*-?\d*(\.\d+)?)/));
+                res = res.split(/([+\-/^*?]*-?\d*(\.\d+)?)/)
+                    .filter(value => value !== undefined && value.length > 0 && value[0] !== '.')
                     .map(value => {
                         let action, number;
 
