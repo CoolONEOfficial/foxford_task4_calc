@@ -61,18 +61,13 @@
         },
         methods: {
             compute(str) {
-                console.log(
-                    "replaced: ",
-                    str.replace(/\(.*?\)/, match => {
-                        let res = this.compute(match.slice(1, -1));
-                        console.log("match: ", match, "res: ", res);
-                        return res.toString();
-                    })
-                );
-
-                let res = str
-                    .replace(/\(.*?\)/, match => this.compute(match.slice(1, -1)))
-                    .split(/([+\-/^*?]*-?\w*)/)
+                let res = str.replace(/\(.*?\)/, match => {
+                    let res = this.compute(match.slice(1, -1));
+                    console.log("match: ", match, "res: ", res);
+                    return res.toString();
+                });
+                console.log("replaced: ", res);
+                res = res.split(/([+\-/^*?]*-?\w*)/)
                     .filter(value => value.length > 0)
                     .map(value => {
                         let action, number;
@@ -154,7 +149,7 @@
 
                 console.log("final res: ", res);
 
-                return res[0][1];
+                return res.length > 0 ? res[0][0] === "-" ? -res[0][1] : res[0][1] : 0;
             }
         },
     }
