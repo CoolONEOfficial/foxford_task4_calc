@@ -56,24 +56,22 @@
         watch: {
             inputText(inputText) {
                 console.log(inputText);
-                this.solution = this.compute(inputText)[0][1].toString();
+                this.solution = this.compute(inputText).toString();
             }
         },
         methods: {
             compute(str) {
-                // let array = [], c = 0;
-
-                // console.log("-------");
-                // console.log(str.split(/([()])/).filter(Boolean).forEach(e =>
-                //     e === '('
-                //         ? c++
-                //         : e === ')'
-                //         ? c--
-                //         : array.push(e)
-                // ));
-                // console.log(array.toString());
+                console.log(
+                    "replaced: ",
+                    str.replace(/\(.*?\)/, match => {
+                        let res = this.compute(match.slice(1, -1));
+                        console.log("match: ", match, "res: ", res);
+                        return res.toString();
+                    })
+                );
 
                 let res = str
+                    .replace(/\(.*?\)/, match => this.compute(match.slice(1, -1)))
                     .split(/([+\-/^*?]*-?\w*)/)
                     .filter(value => value.length > 0)
                     .map(value => {
@@ -156,7 +154,7 @@
 
                 console.log("final res: ", res);
 
-                return res;
+                return res[0][1];
             }
         },
     }
