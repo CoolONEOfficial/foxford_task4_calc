@@ -160,7 +160,7 @@
 
                 console.log("final res: ", res.toString());
 
-                return res.length > 0 ? res[0][1] : 0;
+                return res.length > 0 ? Math.round(res[0][1]*1000) / 1000 : 0;
             }
         },
     }
